@@ -51,23 +51,28 @@ void setup()
   //Collections.shuffle(Arrays.asList(phrases), new Random(100)); //randomize the order of the phrases with seed 100; same order every time, useful for testing
   orientation(LANDSCAPE); //can also be PORTRAIT - sets orientation on android device
   // *** For Pixel 5 ***
-  // DPIofYourDeviceScreen = 432;
+  DPIofYourDeviceScreen = 432;
   sizeOfInputArea = DPIofYourDeviceScreen*1;
-  // size(2340, 1080); //Sets the size of the app. You should modify this to your device's native size. Many phones today are 1080 wide by 1920 tall.
+  size(2340, 1080); //Sets the size of the app. You should modify this to your device's native size. Many phones today are 1080 wide by 1920 tall.
   //// ** For LG K31 ***
-  size(1520, 720); //Sets the size of the app. You should modify this to your device's native size. Many phones today are 1080 wide by 1920 tall.
+  //size(1520, 720); //Sets the size of the app. You should modify this to your device's native size. Many phones today are 1080 wide by 1920 tall.
   
-  textFont(createFont("Arial", 20)); //set the font to arial 24. Creating fonts is expensive, so make difference sizes once in setup, not draw
+  //textFont(createFont("Arial", 20)); //set the font to arial 24. Creating fonts is expensive, so make difference sizes once in setup, not draw
+  textFont(createFont("Segoe UI", 60)); //set the font to arial 24. Creating fonts is expensive, so make difference sizes once in setup, not draw
   noStroke(); //my code doesn't use any strokes
   xul = (width/2-sizeOfInputArea/2);
   yul = (height/2-sizeOfInputArea/2);
   row = 4;
-  col = 3;
-  p1Keys = "ab*cd*ef*".toCharArray();
-  p2Keys = "ghijklmno".toCharArray();
-  p3Keys = "pqrstuvwx".toCharArray();
-  p4Keys = "yz       ".toCharArray();
-  pageKeys = new char[][] {p1Keys, p2Keys, p3Keys, p4Keys};
+  col = 4;
+  //p1Keys = "ab*cd*ef*".toCharArray();
+  //p2Keys = "ghijklmno".toCharArray();
+  //p3Keys = "pqrstuvwx".toCharArray();
+  //p4Keys = "yz       ".toCharArray();
+  //pageKeys = new char[][] {p1Keys, p2Keys, p3Keys, p4Keys};
+  p1Keys = "abc*def*ghi*".toCharArray();
+  p2Keys = "jklmnopqrstu".toCharArray();
+  p3Keys = "vwxyz       ".toCharArray();
+  pageKeys = new char[][] {p1Keys, p2Keys, p3Keys};
 }
 
 //You can modify anything in here. This is just a basic implementation.
@@ -150,7 +155,10 @@ void draw()
              sizeOfInputArea/col, 
              sizeOfInputArea/row); //draw left red button
         fill(0);
-        text(tempKeys[(i-1)*3+j], xul+j*sizeOfInputArea/col+sizeOfInputArea/col/2, 
+        if (currentPage==0 && j==col-1){
+          fill(56,176,0);
+        }
+        text(tempKeys[(i-1)*col+j], xul+j*sizeOfInputArea/col+sizeOfInputArea/col/2, 
              yul+i*sizeOfInputArea/row+sizeOfInputArea/row/2);
         tempLetter ++;
       }
@@ -169,6 +177,7 @@ void draw()
     //     sizeOfInputArea/col, 
     //     sizeOfInputArea/row); //draw left red button                   
     //}
+    fill(0);
   }
  
  
@@ -199,8 +208,21 @@ void mouseReleased(){
     if (mouseY-dragY1>100){
       currentLetter ++;
       dragPressed = false;
-      currentPage = (currentPage+1) % 4;
+      currentPage = (currentPage+1) % pageKeys.length;
+    }else{
+      if (mouseX>xul && mouseX<xul+sizeOfInputArea && mouseY>yul && mouseY<yul+sizeOfInputArea){
+        int col_index = int((mouseX-xul) / int(sizeOfInputArea/col));
+        int row_index = int((mouseY-yul) / int(sizeOfInputArea/row));
+        if (row_index>0){
+          System.out.println("Pressed: "+str(row_index)+" "+str(col_index));
+          currentTyped += pageKeys[currentPage][Math.max(row_index-1,0)*col+col_index];
+        }
+      }
     }
+    System.out.println(currentPage);
+
+  }else{
+
   }
   
   pressedFlag = false;
@@ -224,6 +246,7 @@ void mousePressed()
   System.out.println(currentTyped);
   
   pressedFlag = true;
+
 
   //if (didMouseClick(xul, yul+sizeOfInputArea/2, sizeOfInputArea/2, sizeOfInputArea/2)) //check if click in left button
   //{
