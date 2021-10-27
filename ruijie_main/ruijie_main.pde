@@ -27,6 +27,7 @@ int i, j;
 char tempLetter;
 Boolean dragPressed = false;
 float dragY1;
+Boolean pressedFlag = false;
 
 //Variables for my silly implementation. You can delete this:
 char currentLetter = 'a';
@@ -36,6 +37,9 @@ char[] p2Keys;
 char[] p3Keys;
 char[] p4Keys;
 char[][] pageKeys;
+
+int col_index;
+int row_index;
 //You can modify anything in here. This is just a basic implementation.
 void setup()
 {
@@ -151,6 +155,20 @@ void draw()
         tempLetter ++;
       }
     }
+    
+    // highlight letter box
+    //if (pressedFlag && didMouseClick( width/2-sizeOfInputArea/2, 
+    //                                  height/2-sizeOfInputArea/2, 
+    //                                  sizeOfInputArea, 
+    //                                  sizeOfInputArea)){
+    //  j = int((mouseX-xul) / int(sizeOfInputArea/4));
+    //  i = int((mouseY-yul) / int(sizeOfInputArea/4));
+    //  fill(200);
+    //  rect(xul+j*sizeOfInputArea/col, 
+    //     yul+i*sizeOfInputArea/row, 
+    //     sizeOfInputArea/col, 
+    //     sizeOfInputArea/row); //draw left red button                   
+    //}
   }
  
  
@@ -163,6 +181,18 @@ boolean didMouseClick(float x, float y, float w, float h) //simple function to d
   return (mouseX > x && mouseX<x+w && mouseY>y && mouseY<y+h); //check to see if it is in button bounds
 }
 
+//void mouseDragged(){
+//  j = int((mouseX-xul) / int(sizeOfInputArea/4));
+//  i = int((mouseY-yul) / int(sizeOfInputArea/4));
+//  if (i>0){
+//    fill(200);
+//    rect(xul+j*sizeOfInputArea/col, 
+//       yul+i*sizeOfInputArea/row, 
+//       sizeOfInputArea/col, 
+//       sizeOfInputArea/row); //draw left red button
+//  }
+//}
+
 
 void mouseReleased(){
   if (dragPressed){
@@ -171,9 +201,9 @@ void mouseReleased(){
       dragPressed = false;
       currentPage = (currentPage+1) % 4;
     }
-    System.out.println(currentPage);
-
   }
+  
+  pressedFlag = false;
 }
 
 //my terrible implementation you can entirely replace
@@ -191,6 +221,10 @@ void mousePressed()
   int col_index = int((mouseX-xul) / int(sizeOfInputArea/4));
   int row_index = int((mouseY-yul) / int(sizeOfInputArea/4));
   currentTyped += pageKeys[currentPage][(row_index-1)*col+col_index];
+  System.out.println(currentTyped);
+  
+  pressedFlag = true;
+
   //if (didMouseClick(xul, yul+sizeOfInputArea/2, sizeOfInputArea/2, sizeOfInputArea/2)) //check if click in left button
   //{
   //  currentLetter --;
