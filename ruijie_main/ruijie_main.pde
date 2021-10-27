@@ -13,10 +13,13 @@ float lettersExpectedTotal = 0; //a running total of the number of letters expec
 float errorsTotal = 0; //a running total of the number of errors (when hitting next)
 String currentPhrase = ""; //the current target phrase
 String currentTyped = ""; //what the user has typed so far
-final int DPIofYourDeviceScreen = 295; //you will need to look up the DPI or PPI of your device to make sure you get the right scale. Or play around with this value.
-final float sizeOfInputArea = DPIofYourDeviceScreen*1; //aka, 1.0 inches square!
+boolean isPixel = true;
+int DPIofYourDeviceScreen = 295; //you will need to look up the DPI or PPI of your device to make sure you get the right scale. Or play around with this value.
+float sizeOfInputArea = DPIofYourDeviceScreen*1; //aka, 1.0 inches square!
 PImage watch;
 PImage finger;
+float xul = 0;
+float yul = 0;
 
 int row = 0;
 int col = 0;
@@ -26,6 +29,10 @@ char tempLetter;
 //Variables for my silly implementation. You can delete this:
 char currentLetter = 'a';
 
+int currentPage = 0;
+String[] p1Keys;
+String[] p2Keys;
+String[] p3Keys;
 //You can modify anything in here. This is just a basic implementation.
 void setup()
 {
@@ -35,11 +42,20 @@ void setup()
   phrases = loadStrings("phrases2.txt"); //load the phrase set into memory
   Collections.shuffle(Arrays.asList(phrases), new Random()); //randomize the order of the phrases with no seed
   //Collections.shuffle(Arrays.asList(phrases), new Random(100)); //randomize the order of the phrases with seed 100; same order every time, useful for testing
- 
   orientation(LANDSCAPE); //can also be PORTRAIT - sets orientation on android device
-  size(1520, 720); //Sets the size of the app. You should modify this to your device's native size. Many phones today are 1080 wide by 1920 tall.
+  int longSide = 1520;
+  int shortSide = 720;
+  // *** For Pixel 5 ***
+  DPIofYourDeviceScreen = 432;
+  sizeOfInputArea = DPIofYourDeviceScreen*1;
+  size(2340, 1080); //Sets the size of the app. You should modify this to your device's native size. Many phones today are 1080 wide by 1920 tall.
+  //// ** For LG K31 ***
+  //size(1520, 720); //Sets the size of the app. You should modify this to your device's native size. Many phones today are 1080 wide by 1920 tall.
+  
   textFont(createFont("Arial", 20)); //set the font to arial 24. Creating fonts is expensive, so make difference sizes once in setup, not draw
   noStroke(); //my code doesn't use any strokes
+  xul = (width/2-sizeOfInputArea/2);
+  yul = (height/2-sizeOfInputArea/2);
 }
 
 //You can modify anything in here. This is just a basic implementation.
@@ -69,7 +85,8 @@ void draw()
   
   drawWatch(); //draw watch background
   fill(100);
-  rect(width/2-sizeOfInputArea/2, height/2-sizeOfInputArea/2, sizeOfInputArea, sizeOfInputArea); //input area should be 1" by 1"
+  //rect(width/2-sizeOfInputArea/2, height/2-sizeOfInputArea/2, sizeOfInputArea, sizeOfInputArea); //input area should be 1" by 1"
+  rect(xul, yul, sizeOfInputArea, sizeOfInputArea); //input area should be 1" by 1"
   
 
   if (startTime==0 & !mousePressed)
@@ -117,13 +134,13 @@ void draw()
     for (i=1; i<row; i++){
       for (j=0; j<col; j++){
         fill(255);
-        rect(width/2-sizeOfInputArea/2+j*sizeOfInputArea/col, 
-             height/2-sizeOfInputArea/2+i*sizeOfInputArea/row, 
+        rect(xul+j*sizeOfInputArea/col, 
+             yul+i*sizeOfInputArea/row, 
              sizeOfInputArea/col, 
              sizeOfInputArea/row); //draw left red button
         fill(0);
-        text(tempLetter, width/2-sizeOfInputArea/2+j*sizeOfInputArea/col+sizeOfInputArea/col/2, 
-             height/2-sizeOfInputArea/2+i*sizeOfInputArea/row+sizeOfInputArea/row/2);
+        text(tempLetter, xul+j*sizeOfInputArea/col+sizeOfInputArea/col/2, 
+             yul+i*sizeOfInputArea/row+sizeOfInputArea/row/2);
         tempLetter ++;
       }
     }
@@ -142,21 +159,21 @@ boolean didMouseClick(float x, float y, float w, float h) //simple function to d
 //my terrible implementation you can entirely replace
 void mousePressed()
 {
-  if (didMouseClick(width/2-sizeOfInputArea/2, height/2-sizeOfInputArea/2+sizeOfInputArea/2, sizeOfInputArea/2, sizeOfInputArea/2)) //check if click in left button
+  if (didMouseClick(xul, yul+sizeOfInputArea/2, sizeOfInputArea/2, sizeOfInputArea/2)) //check if click in left button
   {
     currentLetter --;
     if (currentLetter<'_') //wrap around to z
       currentLetter = 'z';
   }
 
-  if (didMouseClick(width/2-sizeOfInputArea/2+sizeOfInputArea/2, height/2-sizeOfInputArea/2+sizeOfInputArea/2, sizeOfInputArea/2, sizeOfInputArea/2)) //check if click in right button
+  if (didMouseClick(xul+sizeOfInputArea/2, yul+sizeOfInputArea/2, sizeOfInputArea/2, sizeOfInputArea/2)) //check if click in right button
   {
     currentLetter ++;
     if (currentLetter>'z') //wrap back to space (aka underscore)
       currentLetter = '_';
   }
 
-  if (didMouseClick(width/2-sizeOfInputArea/2, height/2-sizeOfInputArea/2, sizeOfInputArea, sizeOfInputArea/2)) //check if click occured in letter area
+  if (didMouseClick(xul, yul, sizeOfInputArea, sizeOfInputArea/2)) //check if click occured in letter area
   {
     if (currentLetter=='_') //if underscore, consider that a space bar
       currentTyped+=" ";

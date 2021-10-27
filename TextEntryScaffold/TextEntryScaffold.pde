@@ -17,8 +17,8 @@ final int DPIofYourDeviceScreen = 432; //you will need to look up the DPI or PPI
 final float sizeOfInputArea = DPIofYourDeviceScreen*1; //aka, 1.0 inches square!
 PImage watch;
 PImage finger;
-float xul = (width/2-sizeOfInputArea/2);
-float yul = (height/2-sizeOfInputArea/2);
+float xul = 0;
+float yul = 0;
 
 //Variables for my silly implementation. You can delete this:
 char currentLetter = 'a';
@@ -37,6 +37,8 @@ void setup()
   size(2340, 1080); //Sets the size of the app. You should modify this to your device's native size. Many phones today are 1080 wide by 1920 tall.
   textFont(createFont("Arial", 20)); //set the font to arial 24. Creating fonts is expensive, so make difference sizes once in setup, not draw
   noStroke(); //my code doesn't use any strokes
+  xul = (width/2-sizeOfInputArea/2);
+  yul = (height/2-sizeOfInputArea/2);
 }
 
 //You can modify anything in here. This is just a basic implementation.
@@ -69,6 +71,7 @@ void draw()
   System.out.print(width/2-sizeOfInputArea/2);
   System.out.print(xul);
   rect(width/2-sizeOfInputArea/2, height/2-sizeOfInputArea/2, sizeOfInputArea, sizeOfInputArea); //input area should be 1" by 1"
+  fill(0,0,255);
   rect(xul, yul, sizeOfInputArea, sizeOfInputArea); //input area should be 1" by 1"
   
 
