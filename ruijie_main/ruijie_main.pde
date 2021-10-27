@@ -13,7 +13,7 @@ float lettersExpectedTotal = 0; //a running total of the number of letters expec
 float errorsTotal = 0; //a running total of the number of errors (when hitting next)
 String currentPhrase = ""; //the current target phrase
 String currentTyped = ""; //what the user has typed so far
-final int DPIofYourDeviceScreen = 120; //you will need to look up the DPI or PPI of your device to make sure you get the right scale. Or play around with this value.
+final int DPIofYourDeviceScreen = 295; //you will need to look up the DPI or PPI of your device to make sure you get the right scale. Or play around with this value.
 final float sizeOfInputArea = DPIofYourDeviceScreen*1; //aka, 1.0 inches square!
 PImage watch;
 PImage finger;
@@ -21,6 +21,7 @@ PImage finger;
 int row = 0;
 int col = 0;
 int i, j;
+char tempLetter;
 
 //Variables for my silly implementation. You can delete this:
 char currentLetter = 'a';
@@ -36,7 +37,7 @@ void setup()
   //Collections.shuffle(Arrays.asList(phrases), new Random(100)); //randomize the order of the phrases with seed 100; same order every time, useful for testing
  
   orientation(LANDSCAPE); //can also be PORTRAIT - sets orientation on android device
-  size(800, 800); //Sets the size of the app. You should modify this to your device's native size. Many phones today are 1080 wide by 1920 tall.
+  size(1520, 720); //Sets the size of the app. You should modify this to your device's native size. Many phones today are 1080 wide by 1920 tall.
   textFont(createFont("Arial", 20)); //set the font to arial 24. Creating fonts is expensive, so make difference sizes once in setup, not draw
   noStroke(); //my code doesn't use any strokes
 }
@@ -111,15 +112,19 @@ void draw()
     
     row = 4;
     col = 3;
+    tempLetter = currentLetter;
+
     for (i=1; i<row; i++){
       for (j=0; j<col; j++){
+        fill(255);
         rect(width/2-sizeOfInputArea/2+j*sizeOfInputArea/col, 
              height/2-sizeOfInputArea/2+i*sizeOfInputArea/row, 
              sizeOfInputArea/col, 
              sizeOfInputArea/row); //draw left red button
-        text(currentLetter, width/2-sizeOfInputArea/2+j*sizeOfInputArea/col+sizeOfInputArea/col/2, 
+        fill(0);
+        text(tempLetter, width/2-sizeOfInputArea/2+j*sizeOfInputArea/col+sizeOfInputArea/col/2, 
              height/2-sizeOfInputArea/2+i*sizeOfInputArea/row+sizeOfInputArea/row/2);
-        currentLetter ++;
+        tempLetter ++;
       }
     }
   }
