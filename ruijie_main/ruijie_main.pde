@@ -28,11 +28,12 @@ char tempLetter;
 
 //Variables for my silly implementation. You can delete this:
 char currentLetter = 'a';
-
 int currentPage = 0;
-String[] p1Keys;
-String[] p2Keys;
-String[] p3Keys;
+char[] p1Keys;
+char[] p2Keys;
+char[] p3Keys;
+char[] p4Keys;
+char[][] pageKeys;
 //You can modify anything in here. This is just a basic implementation.
 void setup()
 {
@@ -43,8 +44,6 @@ void setup()
   Collections.shuffle(Arrays.asList(phrases), new Random()); //randomize the order of the phrases with no seed
   //Collections.shuffle(Arrays.asList(phrases), new Random(100)); //randomize the order of the phrases with seed 100; same order every time, useful for testing
   orientation(LANDSCAPE); //can also be PORTRAIT - sets orientation on android device
-  int longSide = 1520;
-  int shortSide = 720;
   // *** For Pixel 5 ***
   DPIofYourDeviceScreen = 432;
   sizeOfInputArea = DPIofYourDeviceScreen*1;
@@ -56,6 +55,11 @@ void setup()
   noStroke(); //my code doesn't use any strokes
   xul = (width/2-sizeOfInputArea/2);
   yul = (height/2-sizeOfInputArea/2);
+  p1Keys = "ab*cd*ef*".toCharArray();
+  p2Keys = "ghijklmno".toCharArray();
+  p3Keys = "pqrstuvwx".toCharArray();
+  p3Keys = "yz       ".toCharArray();
+  pageKeys = new char[][] {p1Keys, p2Keys, p3Keys, p4Keys};
 }
 
 //You can modify anything in here. This is just a basic implementation.
@@ -129,8 +133,8 @@ void draw()
     
     row = 4;
     col = 3;
-    tempLetter = currentLetter;
-
+    //tempLetter = currentLetter;
+    char[] tempKeys = pageKeys[currentPage];
     for (i=1; i<row; i++){
       for (j=0; j<col; j++){
         fill(255);
@@ -139,7 +143,7 @@ void draw()
              sizeOfInputArea/col, 
              sizeOfInputArea/row); //draw left red button
         fill(0);
-        text(tempLetter, xul+j*sizeOfInputArea/col+sizeOfInputArea/col/2, 
+        text(tempKeys[(i-1)*3+j], xul+j*sizeOfInputArea/col+sizeOfInputArea/col/2, 
              yul+i*sizeOfInputArea/row+sizeOfInputArea/row/2);
         tempLetter ++;
       }
