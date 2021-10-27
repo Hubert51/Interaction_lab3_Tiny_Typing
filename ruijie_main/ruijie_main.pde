@@ -25,6 +25,8 @@ int row = 0;
 int col = 0;
 int i, j;
 char tempLetter;
+Boolean dragPressed = false;
+float dragY1;
 
 //Variables for my silly implementation. You can delete this:
 char currentLetter = 'a';
@@ -45,11 +47,11 @@ void setup()
   //Collections.shuffle(Arrays.asList(phrases), new Random(100)); //randomize the order of the phrases with seed 100; same order every time, useful for testing
   orientation(LANDSCAPE); //can also be PORTRAIT - sets orientation on android device
   // *** For Pixel 5 ***
-  DPIofYourDeviceScreen = 432;
+  // DPIofYourDeviceScreen = 432;
   sizeOfInputArea = DPIofYourDeviceScreen*1;
-  size(2340, 1080); //Sets the size of the app. You should modify this to your device's native size. Many phones today are 1080 wide by 1920 tall.
+  // size(2340, 1080); //Sets the size of the app. You should modify this to your device's native size. Many phones today are 1080 wide by 1920 tall.
   //// ** For LG K31 ***
-  //size(1520, 720); //Sets the size of the app. You should modify this to your device's native size. Many phones today are 1080 wide by 1920 tall.
+  size(1520, 720); //Sets the size of the app. You should modify this to your device's native size. Many phones today are 1080 wide by 1920 tall.
   
   textFont(createFont("Arial", 20)); //set the font to arial 24. Creating fonts is expensive, so make difference sizes once in setup, not draw
   noStroke(); //my code doesn't use any strokes
@@ -58,7 +60,7 @@ void setup()
   p1Keys = "ab*cd*ef*".toCharArray();
   p2Keys = "ghijklmno".toCharArray();
   p3Keys = "pqrstuvwx".toCharArray();
-  p3Keys = "yz       ".toCharArray();
+  p4Keys = "yz       ".toCharArray();
   pageKeys = new char[][] {p1Keys, p2Keys, p3Keys, p4Keys};
 }
 
@@ -160,9 +162,30 @@ boolean didMouseClick(float x, float y, float w, float h) //simple function to d
   return (mouseX > x && mouseX<x+w && mouseY>y && mouseY<y+h); //check to see if it is in button bounds
 }
 
+void mouseReleased(){
+  if (dragPressed){
+    if (mouseY-dragY1>100){
+      currentLetter ++;
+      dragPressed = false;
+      currentPage = (currentPage+1) % 4;
+    }
+    System.out.println(currentPage);
+
+  }
+}
+
 //my terrible implementation you can entirely replace
 void mousePressed()
 {
+  if (didMouseClick(width/2-sizeOfInputArea/2, 
+                    height/2-sizeOfInputArea/2, 
+                    sizeOfInputArea, 
+                    sizeOfInputArea)) //check if click in left button
+  {
+    dragPressed = true;
+    dragY1 = mouseY;
+  }
+  
   if (didMouseClick(xul, yul+sizeOfInputArea/2, sizeOfInputArea/2, sizeOfInputArea/2)) //check if click in left button
   {
     currentLetter --;
