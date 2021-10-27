@@ -57,6 +57,8 @@ void setup()
   noStroke(); //my code doesn't use any strokes
   xul = (width/2-sizeOfInputArea/2);
   yul = (height/2-sizeOfInputArea/2);
+  row = 4;
+  col = 3;
   p1Keys = "ab*cd*ef*".toCharArray();
   p2Keys = "ghijklmno".toCharArray();
   p3Keys = "pqrstuvwx".toCharArray();
@@ -133,8 +135,7 @@ void draw()
     //fill(200);
     //text("" + currentLetter, width/2, height/2-sizeOfInputArea/4); //draw current letter
     
-    row = 4;
-    col = 3;
+
     //tempLetter = currentLetter;
     char[] tempKeys = pageKeys[currentPage];
     for (i=1; i<row; i++){
@@ -162,6 +163,7 @@ boolean didMouseClick(float x, float y, float w, float h) //simple function to d
   return (mouseX > x && mouseX<x+w && mouseY>y && mouseY<y+h); //check to see if it is in button bounds
 }
 
+
 void mouseReleased(){
   if (dragPressed){
     if (mouseY-dragY1>100){
@@ -186,6 +188,9 @@ void mousePressed()
     dragY1 = mouseY;
   }
   
+  int col_index = int((mouseX-xul) / int(sizeOfInputArea/4));
+  int row_index = int((mouseY-yul) / int(sizeOfInputArea/4));
+  currentTyped += pageKeys[currentPage][(row_index-1)*col+col_index];
   if (didMouseClick(xul, yul+sizeOfInputArea/2, sizeOfInputArea/2, sizeOfInputArea/2)) //check if click in left button
   {
     currentLetter --;
