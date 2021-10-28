@@ -29,6 +29,8 @@ Boolean dragPressed = false;
 float dragY1;
 Boolean pressedFlag = false;
 
+final int letterBoard = 10;
+
 //Variables for my silly implementation. You can delete this:
 char currentLetter = 'a';
 int currentPage = 0;
@@ -51,14 +53,14 @@ void setup()
   //Collections.shuffle(Arrays.asList(phrases), new Random(100)); //randomize the order of the phrases with seed 100; same order every time, useful for testing
   orientation(LANDSCAPE); //can also be PORTRAIT - sets orientation on android device
   // *** For Pixel 5 ***
-  DPIofYourDeviceScreen = 432;
+  // DPIofYourDeviceScreen = 432;
   sizeOfInputArea = DPIofYourDeviceScreen*1;
-  size(2340, 1080); //Sets the size of the app. You should modify this to your device's native size. Many phones today are 1080 wide by 1920 tall.
+  // size(2340, 1080); //Sets the size of the app. You should modify this to your device's native size. Many phones today are 1080 wide by 1920 tall.
   //// ** For LG K31 ***
-  //size(1520, 720); //Sets the size of the app. You should modify this to your device's native size. Many phones today are 1080 wide by 1920 tall.
+  size(1520, 720); //Sets the size of the app. You should modify this to your device's native size. Many phones today are 1080 wide by 1920 tall.
   
   //textFont(createFont("Arial", 20)); //set the font to arial 24. Creating fonts is expensive, so make difference sizes once in setup, not draw
-  textFont(createFont("Segoe UI", 60)); //set the font to arial 24. Creating fonts is expensive, so make difference sizes once in setup, not draw
+  textFont(createFont("Segoe UI", 40)); //set the font to arial 24. Creating fonts is expensive, so make difference sizes once in setup, not draw
   noStroke(); //my code doesn't use any strokes
   xul = (width/2-sizeOfInputArea/2);
   yul = (height/2-sizeOfInputArea/2);
@@ -165,18 +167,19 @@ void draw()
     }
     
     // highlight letter box
-    //if (pressedFlag && didMouseClick( width/2-sizeOfInputArea/2, 
-    //                                  height/2-sizeOfInputArea/2, 
-    //                                  sizeOfInputArea, 
-    //                                  sizeOfInputArea)){
-    //  j = int((mouseX-xul) / int(sizeOfInputArea/4));
-    //  i = int((mouseY-yul) / int(sizeOfInputArea/4));
-    //  fill(200);
-    //  rect(xul+j*sizeOfInputArea/col, 
-    //     yul+i*sizeOfInputArea/row, 
-    //     sizeOfInputArea/col, 
-    //     sizeOfInputArea/row); //draw left red button                   
-    //}
+    if (pressedFlag && mouseX>xul && mouseX<xul+sizeOfInputArea && mouseY>yul && mouseY<yul+sizeOfInputArea){
+      int col_index = int((mouseX-xul) / int(sizeOfInputArea/col));
+      int row_index = int((mouseY-yul) / int(sizeOfInputArea/row));
+      if (row_index>0){
+        fill(225);
+        rect(xul+col_index*sizeOfInputArea/col-letterBoard, 
+           yul+row_index*sizeOfInputArea/row-letterBoard, 
+           sizeOfInputArea/col+2*letterBoard, 
+           sizeOfInputArea/row+2*letterBoard,
+           sizeOfInputArea/col); //draw left red button  
+      }
+    }
+                 
     fill(0);
   }
  
@@ -214,13 +217,11 @@ void mouseReleased(){
         int col_index = int((mouseX-xul) / int(sizeOfInputArea/col));
         int row_index = int((mouseY-yul) / int(sizeOfInputArea/row));
         if (row_index>0){
-          System.out.println("Pressed: "+str(row_index)+" "+str(col_index));
+          // System.out.println("Pressed: "+str(row_index)+" "+str(col_index));
           currentTyped += pageKeys[currentPage][Math.max(row_index-1,0)*col+col_index];
         }
       }
     }
-    System.out.println(currentPage);
-
   }else{
 
   }
@@ -239,11 +240,6 @@ void mousePressed()
     dragPressed = true;
     dragY1 = mouseY;
   }
-  
-  int col_index = int((mouseX-xul) / int(sizeOfInputArea/4));
-  int row_index = int((mouseY-yul) / int(sizeOfInputArea/4));
-  currentTyped += pageKeys[currentPage][(row_index-1)*col+col_index];
-  System.out.println(currentTyped);
   
   pressedFlag = true;
 
