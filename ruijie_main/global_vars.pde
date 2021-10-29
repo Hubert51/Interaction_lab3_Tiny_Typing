@@ -9,6 +9,7 @@ float lettersExpectedTotal = 0; //a running total of the number of letters expec
 float errorsTotal = 0; //a running total of the number of errors (when hitting next)
 String currentPhrase = ""; //the current target phrase
 String currentTyped = ""; //what the user has typed so far
+int indexOfLastSpace = 0;
 boolean isPixel = true;
 int DPIofYourDeviceScreen = 295; //you will need to look up the DPI or PPI of your device to make sure you get the right scale. Or play around with this value.
 float sizeOfInputArea = DPIofYourDeviceScreen*1; //aka, 1.0 inches square!

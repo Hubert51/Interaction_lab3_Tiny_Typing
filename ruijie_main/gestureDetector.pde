@@ -19,13 +19,13 @@ boolean didMouseClick(float x, float y, float w, float h) //simple function to d
 void mouseReleased(){
   if (dragPressed){
     if (mouseY-dragY1>100){  // show next keyboard page
-      currentLetter ++;
-      dragPressed = false;
-      currentPage = (currentPage+1) % pageKeys.length;
-    }else if (mouseY-dragY1<-100){  // show prev keyboard page
       currentLetter ++;  //?? TODO: @Ruijie verify this if needed
       dragPressed = false;
       currentPage = (currentPage-1+pageKeys.length) % pageKeys.length;
+    }else if (mouseY-dragY1<-100){  // show prev keyboard page
+      currentLetter ++;
+      dragPressed = false;
+      currentPage = (currentPage+1) % pageKeys.length;
     }else if(mouseX-dragX1>100){  // add space
       dragPressed = false;
       currentTyped += " ";
@@ -42,10 +42,7 @@ void mouseReleased(){
         }
       }
     }
-  }else{
-
   }
-  
   pressedFlag = false;
 }
 

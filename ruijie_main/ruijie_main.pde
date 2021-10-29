@@ -128,26 +128,41 @@ void draw()
         tempLetter ++;
       }
     }
-    
-    // highlight letter box
-    if (pressedFlag && mouseX>xul && mouseX<xul+sizeOfInputArea && mouseY>yul && mouseY<yul+sizeOfInputArea){
-      int col_index = int((mouseX-xul) / int(sizeOfInputArea/col));
-      int row_index = int((mouseY-yul) / int(sizeOfInputArea/row));
-      if (row_index>0){
-        fill(225);
-        rect(xul+col_index*sizeOfInputArea/col-letterBoard, 
-           yul+row_index*sizeOfInputArea/row-letterBoard, 
-           sizeOfInputArea/col+2*letterBoard, 
-           sizeOfInputArea/row+2*letterBoard,
-           sizeOfInputArea/col); //draw left red button  
-      }
+    // draw text box on first row
+    // NOTE: Temporary solution for prototype 1; need to replace as freq word in future
+    fill(56,176,0);
+    if (currentTyped.length()>0 && currentTyped.charAt(currentTyped.length()-1)==' '){
+      indexOfLastSpace=currentTyped.length();
     }
-                 
+    String tmp = "";
+    if (indexOfLastSpace+1<currentTyped.length()){
+      tmp = currentTyped.substring(indexOfLastSpace,currentTyped.length());
+    }
+    text(tmp, xul+sizeOfInputArea/col/2, 
+             yul+sizeOfInputArea/row/2);
     fill(0);
+    
+    drawOnPress();  // draw visuals on pressing key
+                 
   }
   //drawFinger(); //no longer needed as we'll be deploying to an actual touschreen device
 }
 
+void drawOnPress(){
+   // highlight letter box
+  if (pressedFlag && mouseX>xul && mouseX<xul+sizeOfInputArea && mouseY>yul && mouseY<yul+sizeOfInputArea){
+    int col_index = int((mouseX-xul) / int(sizeOfInputArea/col));
+    int row_index = int((mouseY-yul) / int(sizeOfInputArea/row));
+    if (row_index>0){
+      fill(225, 150);
+      rect(xul+col_index*sizeOfInputArea/col-letterBoard, 
+         yul+row_index*sizeOfInputArea/row-letterBoard, 
+         sizeOfInputArea/col+2*letterBoard, 
+         sizeOfInputArea/row+2*letterBoard,
+         sizeOfInputArea/col); //draw left red button  
+    }
+  }
+}
 //my terrible implementation you can entirely replace
 
 
