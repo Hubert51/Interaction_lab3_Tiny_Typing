@@ -2,46 +2,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
 
-String[] phrases; //contains all of the phrases
-int totalTrialNum = 2; //the total number of phrases to be tested - set this low for testing. Might be ~10 for the real bakeoff!
-int currTrialNum = 0; // the current trial number (indexes into trials array above)
-float startTime = 0; // time starts when the first letter is entered
-float finishTime = 0; // records the time of when the final trial ends
-float lastTime = 0; //the timestamp of when the last trial was completed
-float lettersEnteredTotal = 0; //a running total of the number of letters the user has entered (need this for final WPM computation)
-float lettersExpectedTotal = 0; //a running total of the number of letters expected (correct phrases)
-float errorsTotal = 0; //a running total of the number of errors (when hitting next)
-String currentPhrase = ""; //the current target phrase
-String currentTyped = ""; //what the user has typed so far
-boolean isPixel = true;
-int DPIofYourDeviceScreen = 295; //you will need to look up the DPI or PPI of your device to make sure you get the right scale. Or play around with this value.
-float sizeOfInputArea = DPIofYourDeviceScreen*1; //aka, 1.0 inches square!
-PImage watch;
-PImage finger;
-float xul = 0;
-float yul = 0;
-
-int row = 0;
-int col = 0;
-int i, j;
-char tempLetter;
-Boolean dragPressed = false;
-float dragY1;
-Boolean pressedFlag = false;
-
-final int letterBoard = 10;
-
-//Variables for my silly implementation. You can delete this:
-char currentLetter = 'a';
-int currentPage = 0;
-char[] p1Keys;
-char[] p2Keys;
-char[] p3Keys;
-char[] p4Keys;
-char[][] pageKeys;
-
-int col_index;
-int row_index;
 //You can modify anything in here. This is just a basic implementation.
 void setup()
 {
@@ -52,12 +12,15 @@ void setup()
   Collections.shuffle(Arrays.asList(phrases), new Random()); //randomize the order of the phrases with no seed
   //Collections.shuffle(Arrays.asList(phrases), new Random(100)); //randomize the order of the phrases with seed 100; same order every time, useful for testing
   orientation(LANDSCAPE); //can also be PORTRAIT - sets orientation on android device
+  
+  ////// ** For LG K31 ***
+  //size(1520, 720); //Sets the size of the app. You should modify this to your device's native size. Many phones today are 1080 wide by 1920 tall.
+  
   // *** For Pixel 5 ***
-  // DPIofYourDeviceScreen = 432;
+  DPIofYourDeviceScreen = 432;
   sizeOfInputArea = DPIofYourDeviceScreen*1;
-  // size(2340, 1080); //Sets the size of the app. You should modify this to your device's native size. Many phones today are 1080 wide by 1920 tall.
-  //// ** For LG K31 ***
-  size(1520, 720); //Sets the size of the app. You should modify this to your device's native size. Many phones today are 1080 wide by 1920 tall.
+  size(2340, 1080); //Sets the size of the app. You should modify this to your device's native size. Many phones today are 1080 wide by 1920 tall.
+
   
   //textFont(createFont("Arial", 20)); //set the font to arial 24. Creating fonts is expensive, so make difference sizes once in setup, not draw
   textFont(createFont("Segoe UI", 40)); //set the font to arial 24. Creating fonts is expensive, so make difference sizes once in setup, not draw
@@ -182,98 +145,11 @@ void draw()
                  
     fill(0);
   }
- 
- 
   //drawFinger(); //no longer needed as we'll be deploying to an actual touschreen device
 }
 
 //my terrible implementation you can entirely replace
-boolean didMouseClick(float x, float y, float w, float h) //simple function to do hit testing
-{
-  return (mouseX > x && mouseX<x+w && mouseY>y && mouseY<y+h); //check to see if it is in button bounds
-}
 
-//void mouseDragged(){
-//  j = int((mouseX-xul) / int(sizeOfInputArea/4));
-//  i = int((mouseY-yul) / int(sizeOfInputArea/4));
-//  if (i>0){
-//    fill(200);
-//    rect(xul+j*sizeOfInputArea/col, 
-//       yul+i*sizeOfInputArea/row, 
-//       sizeOfInputArea/col, 
-//       sizeOfInputArea/row); //draw left red button
-//  }
-//}
-
-
-void mouseReleased(){
-  if (dragPressed){
-    if (mouseY-dragY1>100){
-      currentLetter ++;
-      dragPressed = false;
-      currentPage = (currentPage+1) % pageKeys.length;
-    }else{
-      if (mouseX>xul && mouseX<xul+sizeOfInputArea && mouseY>yul && mouseY<yul+sizeOfInputArea){
-        int col_index = int((mouseX-xul) / int(sizeOfInputArea/col));
-        int row_index = int((mouseY-yul) / int(sizeOfInputArea/row));
-        if (row_index>0){
-          // System.out.println("Pressed: "+str(row_index)+" "+str(col_index));
-          currentTyped += pageKeys[currentPage][Math.max(row_index-1,0)*col+col_index];
-        }
-      }
-    }
-  }else{
-
-  }
-  
-  pressedFlag = false;
-}
-
-//my terrible implementation you can entirely replace
-void mousePressed()
-{
-  if (didMouseClick(width/2-sizeOfInputArea/2, 
-                    height/2-sizeOfInputArea/2, 
-                    sizeOfInputArea, 
-                    sizeOfInputArea)) //check if click in left button
-  {
-    dragPressed = true;
-    dragY1 = mouseY;
-  }
-  
-  pressedFlag = true;
-
-
-  //if (didMouseClick(xul, yul+sizeOfInputArea/2, sizeOfInputArea/2, sizeOfInputArea/2)) //check if click in left button
-  //{
-  //  currentLetter --;
-  //  if (currentLetter<'_') //wrap around to z
-  //    currentLetter = 'z';
-  //}
-
-  //if (didMouseClick(xul+sizeOfInputArea/2, yul+sizeOfInputArea/2, sizeOfInputArea/2, sizeOfInputArea/2)) //check if click in right button
-  //{
-  //  currentLetter ++;
-  //  if (currentLetter>'z') //wrap back to space (aka underscore)
-  //    currentLetter = '_';
-  //}
-
-  //if (didMouseClick(xul, yul, sizeOfInputArea, sizeOfInputArea/2)) //check if click occured in letter area
-  //{
-  //  if (currentLetter=='_') //if underscore, consider that a space bar
-  //    currentTyped+=" ";
-  //  else if (currentLetter=='`' & currentTyped.length()>0) //if `, treat that as a delete command
-  //    currentTyped = currentTyped.substring(0, currentTyped.length()-1);
-  //  else if (currentLetter!='`') //if not any of the above cases, add the current letter to the typed string
-  //    currentTyped+=currentLetter;
-  //}
-
-  //You are allowed to have a next button outside the 1" area
-  if (didMouseClick(600, 600, 200, 200)) //check if click is in next button
-  {
-    nextTrial(); //if so, advance to next trial
-  }
-}
 
 
 void nextTrial()
