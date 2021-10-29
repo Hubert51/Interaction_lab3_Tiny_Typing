@@ -16,19 +16,18 @@ PImage watch;
 PImage finger;
 float xul = 0;
 float yul = 0;
-int row = 0;
-int col = 0;
+int row = 0;  //num of rows
+int col = 0;  //num of cols
 int i, j;
 char tempLetter;
 Boolean dragPressed = false;
-float dragY1;
+float dragY1, dragX1;
 Boolean pressedFlag = false;
 
 final int letterBoard = 10;
-
-//Variables for my silly implementation. You can delete this:
 char currentLetter = 'a';
-int currentPage = 0;
+
+int currentPage = 0;  // current keyboard page
 char[] p1Keys;
 char[] p2Keys;
 char[] p3Keys;
