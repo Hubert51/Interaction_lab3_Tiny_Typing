@@ -3,19 +3,6 @@ boolean didMouseClick(float x, float y, float w, float h) //simple function to d
   return (mouseX > x && mouseX<x+w && mouseY>y && mouseY<y+h); //check to see if it is in button bounds
 }
 
-//void mouseDragged(){
-//  j = int((mouseX-xul) / int(sizeOfInputArea/4));
-//  i = int((mouseY-yul) / int(sizeOfInputArea/4));
-//  if (i>0){
-//    fill(200);
-//    rect(xul+j*sizeOfInputArea/col, 
-//       yul+i*sizeOfInputArea/row, 
-//       sizeOfInputArea/col, 
-//       sizeOfInputArea/row); //draw left red button
-//  }
-//}
-
-
 void mouseReleased(){
   if (dragPressed){
     if (mouseY-dragY1>100){  // show next keyboard page
@@ -62,31 +49,6 @@ void mousePressed()
   }
   
   pressedFlag = true;
-
-
-  //if (didMouseClick(xul, yul+sizeOfInputArea/2, sizeOfInputArea/2, sizeOfInputArea/2)) //check if click in left button
-  //{
-  //  currentLetter --;
-  //  if (currentLetter<'_') //wrap around to z
-  //    currentLetter = 'z';
-  //}
-
-  //if (didMouseClick(xul+sizeOfInputArea/2, yul+sizeOfInputArea/2, sizeOfInputArea/2, sizeOfInputArea/2)) //check if click in right button
-  //{
-  //  currentLetter ++;
-  //  if (currentLetter>'z') //wrap back to space (aka underscore)
-  //    currentLetter = '_';
-  //}
-
-  //if (didMouseClick(xul, yul, sizeOfInputArea, sizeOfInputArea/2)) //check if click occured in letter area
-  //{
-  //  if (currentLetter=='_') //if underscore, consider that a space bar
-  //    currentTyped+=" ";
-  //  else if (currentLetter=='`' & currentTyped.length()>0) //if `, treat that as a delete command
-  //    currentTyped = currentTyped.substring(0, currentTyped.length()-1);
-  //  else if (currentLetter!='`') //if not any of the above cases, add the current letter to the typed string
-  //    currentTyped+=currentLetter;
-  //}
   
   if (finishTime!=0 && didMouseClick(600, 300, 200, 100)){
     /* Original vars from sample code */

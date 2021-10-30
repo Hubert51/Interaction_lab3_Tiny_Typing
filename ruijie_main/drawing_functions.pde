@@ -37,9 +37,9 @@ void draw()
   {
     //feel free to change the size and position of the target/entered phrases and next button 
     textAlign(LEFT); //align the text left
-    fill(128);
+    fill(0);
     text("Phrase " + (currTrialNum+1) + " of " + totalTrialNum, 70, 50); //draw the trial count
-    fill(128);
+    fill(0);
     text("Target:   " + currentPhrase, 70, 100); //draw the target string
     text("Entered:  " + currentTyped +"|", 70, 140); //draw what the user has entered thus far 
 
@@ -87,15 +87,17 @@ void drawKeys(){
     char[] tempKeys = pageKeys[currentPage];
     for (i=1; i<row; i++){
       for (j=0; j<col; j++){
-        fill(255);
+        fill(50);
+        if (currentPage==0 && j==col-1){
+          fill(textBoxFontColor[0],textBoxFontColor[1],textBoxFontColor[2]);
+        }
         rect(xul+j*sizeOfInputArea/col, 
              yul+i*sizeOfInputArea/row, 
              sizeOfInputArea/col, 
-             sizeOfInputArea/row); //draw left red button
-        fill(0);
-        if (currentPage==0 && j==col-1){
-          fill(suggestCharColor[0],suggestCharColor[1],suggestCharColor[2]);
-        }
+             sizeOfInputArea/row,
+             sizeOfInputArea/5); 
+        fill(255);
+
         text(tempKeys[(i-1)*col+j], xul+j*sizeOfInputArea/col+sizeOfInputArea/col/2-inputOffsetX, 
              yul+i*sizeOfInputArea/row+sizeOfInputArea/row/2+inputOffSetY);
         tempLetter ++;
@@ -133,7 +135,7 @@ void drawOnPress(){
          yul+row_index*sizeOfInputArea/row-letterBoard, 
          sizeOfInputArea/col+2*letterBoard, 
          sizeOfInputArea/row+2*letterBoard,
-         sizeOfInputArea/col); //draw left red button  
+         sizeOfInputArea/col);
     }
   }
 }
