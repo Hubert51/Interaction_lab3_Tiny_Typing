@@ -54,6 +54,29 @@ void draw()
     
 
     //tempLetter = currentLetter;
+    drawKeys();
+
+    drawTextBar();
+    drawOnPress();  // draw visuals on pressing key
+                 
+  }
+  //drawFinger(); //no longer needed as we'll be deploying to an actual touschreen device
+}
+
+void drawTextBar(){
+    // draw text box on first row
+    // NOTE: Temporary solution for prototype 1; need to replace as freq word in future
+    int firstIndex = Math.max(currentTyped.lastIndexOf(" "),0);
+    String tmp = currentTyped.substring(firstIndex,currentTyped.length());
+    fill(56,176,0);
+    text(tmp, xul+sizeOfInputArea/col/2, 
+         yul+sizeOfInputArea/row/2);
+    fill(255);
+    text("AUTOFILL", xul+sizeOfInputArea/col/2+textWidth(tmp), yul+sizeOfInputArea/row/2);
+    fill(0);
+}
+
+void drawKeys(){
     char[] tempKeys = pageKeys[currentPage];
     for (i=1; i<row; i++){
       for (j=0; j<col; j++){
@@ -71,24 +94,6 @@ void draw()
         tempLetter ++;
       }
     }
-    // draw text box on first row
-    // NOTE: Temporary solution for prototype 1; need to replace as freq word in future
-    fill(56,176,0);
-    if (currentTyped.length()>0 && currentTyped.charAt(currentTyped.length()-1)==' '){
-      indexOfLastSpace=currentTyped.length();
-    }
-    String tmp = "";
-    if (indexOfLastSpace+1<currentTyped.length()){
-      tmp = currentTyped.substring(indexOfLastSpace,currentTyped.length());
-    }
-    text(tmp, xul+sizeOfInputArea/col/2, 
-             yul+sizeOfInputArea/row/2);
-    fill(0);
-    
-    drawOnPress();  // draw visuals on pressing key
-                 
-  }
-  //drawFinger(); //no longer needed as we'll be deploying to an actual touschreen device
 }
 
 void drawScoreStats(){
