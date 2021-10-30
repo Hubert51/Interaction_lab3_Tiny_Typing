@@ -50,22 +50,10 @@ void draw()
     fill(255);
     text("NEXT > ", 125, 350); //draw next label
 
-    //example design draw code
-    //fill(255, 0, 0); //red button
-    //rect(width/2-sizeOfInputArea/2, height/2-sizeOfInputArea/2+sizeOfInputArea/2, sizeOfInputArea/2, sizeOfInputArea/2); //draw left red button
-    //fill(0, 255, 0); //green button
-    //rect(width/2-sizeOfInputArea/2+sizeOfInputArea/2, height/2-sizeOfInputArea/2+sizeOfInputArea/2, sizeOfInputArea/2, sizeOfInputArea/2); //draw right green button
-    //textAlign(CENTER);
-    //fill(200);
-    //text("" + currentLetter, width/2, height/2-sizeOfInputArea/4); //draw current letter
-    
-
-    //tempLetter = currentLetter;
     drawKeys();
-
     drawTextBar();
     drawOnPress();  // draw visuals on pressing key
-                 
+         
   }
   //drawFinger(); //no longer needed as we'll be deploying to an actual touschreen device
 }
@@ -90,10 +78,6 @@ void drawTextBar(){
     fill(textBoxAutofillColor[0],textBoxAutofillColor[1],textBoxAutofillColor[2]);
     text(autofillString, xul+textWidth(tmp), yul+sizeOfInputArea/row/2);
     fill(0);
-    
-    System.out.println(textWidth(tmp));
-    System.out.println(sizeOfInputArea);
-
 }
 
 void drawKeys(){
