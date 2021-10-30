@@ -6,6 +6,12 @@ void draw()
   if (finishTime!=0)
   {
     drawScoreStats();
+    // textAlign(CENTER);
+    textFont(createFont("Segoe UI", 40)); //set the font to arial 24. Creating fonts is expensive, so make difference sizes once in setup, not draw
+    fill(255, 0, 0);
+    rect(600, 300, 200, 100); //draw next button
+    fill(255);
+    text("Restart", 700, 365); //draw next label
     return;
   }
   

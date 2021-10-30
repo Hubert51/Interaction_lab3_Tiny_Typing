@@ -85,6 +85,8 @@ void mousePressed()
   //  else if (currentLetter!='`') //if not any of the above cases, add the current letter to the typed string
   //    currentTyped+=currentLetter;
   //}
+  
+  if (didMouseClick(600, 300, 200, 100))
 
   //You are allowed to have a next button outside the 1" area
   if (didMouseClick(100, 300, 200, 200)) //check if click is in next button
