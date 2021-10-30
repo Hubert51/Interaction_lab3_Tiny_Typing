@@ -87,7 +87,7 @@ void drawKeys(){
              sizeOfInputArea/row); //draw left red button
         fill(0);
         if (currentPage==0 && j==col-1){
-          fill(suggestCharColor[0],suggestCharColor[1],suggestCharColor[2]);
+          fill(suggestedCharColor[0],suggestedCharColor[1],suggestedCharColor[2]);
         }
         text(tempKeys[(i-1)*col+j], xul+j*sizeOfInputArea/col+sizeOfInputArea/col/2, 
              yul+i*sizeOfInputArea/row+sizeOfInputArea/row/2);

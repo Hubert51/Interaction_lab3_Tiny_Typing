@@ -40,7 +40,9 @@ int currentPage = 0;  // current keyboard page
 char[] p1Keys;
 char[] p2Keys;
 char[] p3Keys;
-char[] p4Keys;
+
+char[] suggestedChars = new char[] {'a','b','c'};  // TODO: @Ruiyi initialize to 3 most common chars
+//char[] p4Keys;  
 char[][] pageKeys;
 
 int col_index;
