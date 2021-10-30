@@ -76,11 +76,24 @@ void drawTextBar(){
     int firstIndex = Math.max(currentTyped.lastIndexOf(" "),0);
     String tmp = currentTyped.substring(firstIndex,currentTyped.length());
     fill(textBoxFontColor[0],textBoxFontColor[1],textBoxFontColor[2]);
-    text(tmp, xul+sizeOfInputArea/col/2, 
+    textFont(createFont("Segoe UI", currentFont)); //set the font to arial 24. Creating fonts is expensive, so make difference sizes once in setup, not draw
+    if (textWidth(tmp) >= sizeOfInputArea){
+         currentFont -= 5;
+    }
+    else if (textWidth(tmp) <= sizeOfInputArea/2){
+        currentFont += 5;
+        currentFont = Math.min(currentFont, 40);
+    }
+    textFont(createFont("Segoe UI", currentFont)); //set the font to arial 24. Creating fonts is expensive, so make difference sizes once in setup, not draw
+    text(tmp, xul, 
          yul+sizeOfInputArea/row/2);
     fill(textBoxAutofillColor[0],textBoxAutofillColor[1],textBoxAutofillColor[2]);
-    text(autofillString, xul+sizeOfInputArea/col/2+textWidth(tmp), yul+sizeOfInputArea/row/2);
+    text(autofillString, xul+textWidth(tmp), yul+sizeOfInputArea/row/2);
     fill(0);
+    
+    System.out.println(textWidth(tmp));
+    System.out.println(sizeOfInputArea);
+
 }
 
 void drawKeys(){
@@ -110,6 +123,7 @@ void drawKeys(){
         }
         if (Character.isLetter(keyChar)){
           fill(255);
+          textFont(keyBoardFont);
           text(keyChar, xul+j*sizeOfInputArea/col+sizeOfInputArea/col/2-inputOffsetX, 
                yul+i*sizeOfInputArea/row+sizeOfInputArea/row/2+inputOffSetY);
         }

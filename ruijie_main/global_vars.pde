@@ -25,6 +25,7 @@ int inputOffSetY = 10;
 int row = 0;  //num of rows
 int col = 0;  //num of cols
 int i, j;
+int currentFont = 40;
 
 /* Gesture variables */
 char tempLetter;
@@ -49,3 +50,6 @@ char[][] pageKeys;
 
 int col_index;
 int row_index;
+
+// fond
+PFont keyBoardFont = createFont("Segoe UI", 40); //set the font to arial 24. Creating fonts is expensive, so make difference sizes once in setup, not draw
