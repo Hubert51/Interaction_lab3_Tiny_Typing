@@ -85,6 +85,7 @@ void drawTextBar(){
 
 void drawKeys(){
     char[] tempKeys = pageKeys[currentPage];
+    char tempChar = char('a'+currentPage*((row-1)*(col-1)));
     for (i=1; i<row; i++){
       for (j=0; j<col; j++){
         fill(50);
@@ -95,11 +96,23 @@ void drawKeys(){
              yul+i*sizeOfInputArea/row, 
              sizeOfInputArea/col, 
              sizeOfInputArea/row,
-             sizeOfInputArea/5); 
-        fill(255);
-
-        text(tempKeys[(i-1)*col+j], xul+j*sizeOfInputArea/col+sizeOfInputArea/col/2-inputOffsetX, 
-             yul+i*sizeOfInputArea/row+sizeOfInputArea/row/2+inputOffSetY);
+             sizeOfInputArea/5); //draw left red button
+        fill(0);
+        if (currentPage==0 && j==col-1){
+          fill(suggestedCharColor[0],suggestedCharColor[1],suggestedCharColor[2]);
+        }
+        char keyChar = ' ';
+        if (j == col-1){
+          keyChar = suggestedChars[i-1];
+        }else{
+          keyChar = tempChar;
+          tempChar++;
+        }
+        if (Character.isLetter(keyChar)){
+          fill(255);
+          text(keyChar, xul+j*sizeOfInputArea/col+sizeOfInputArea/col/2-inputOffsetX, 
+               yul+i*sizeOfInputArea/row+sizeOfInputArea/row/2+inputOffSetY);
+        }
         tempLetter ++;
       }
     }
