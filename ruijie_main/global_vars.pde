@@ -20,6 +20,8 @@ PImage finger;
 /* UI location variables */
 float xul = 0;
 float yul = 0;
+int inputOffsetX = 5;
+int inputOffSetY = 5;
 int row = 0;  //num of rows
 int col = 0;  //num of cols
 int i, j;

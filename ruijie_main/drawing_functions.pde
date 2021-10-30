@@ -6,6 +6,13 @@ void draw()
   if (finishTime!=0)
   {
     drawScoreStats();
+    // textAlign(CENTER);
+    textFont(createFont("Segoe UI", 40)); //set the font to arial 24. Creating fonts is expensive, so make difference sizes once in setup, not draw
+    fill(255, 0, 0);
+    rect(600, 300, 200, 100); //draw next button
+    fill(255);
+    text("Restart", 700, 365); //draw next label
+    return;
   }
   
   drawWatch(); //draw watch background
@@ -39,9 +46,9 @@ void draw()
     //draw very basic next button
     // to go to second phase
     fill(255, 0, 0);
-    rect(100, 300, 100, 100); //draw next button
+    rect(100, 300, 200, 100); //draw next button
     fill(255);
-    text("NEXT > ", 125, 325); //draw next label
+    text("NEXT > ", 125, 350); //draw next label
 
     //example design draw code
     //fill(255, 0, 0); //red button
@@ -89,8 +96,8 @@ void drawKeys(){
         if (currentPage==0 && j==col-1){
           fill(suggestedCharColor[0],suggestedCharColor[1],suggestedCharColor[2]);
         }
-        text(tempKeys[(i-1)*col+j], xul+j*sizeOfInputArea/col+sizeOfInputArea/col/2, 
-             yul+i*sizeOfInputArea/row+sizeOfInputArea/row/2);
+        text(tempKeys[(i-1)*col+j], xul+j*sizeOfInputArea/col+sizeOfInputArea/col/2-inputOffsetX, 
+             yul+i*sizeOfInputArea/row+sizeOfInputArea/row/2+inputOffSetY);
         tempLetter ++;
       }
     }
@@ -99,6 +106,7 @@ void drawKeys(){
 void drawScoreStats(){
     fill(0);
     textAlign(CENTER);
+    textFont(createFont("Segoe UI", 24));
     text("Trials complete!",400,200); //output
     text("Total time taken: " + (finishTime - startTime),400,220); //output
     text("Total letters entered: " + lettersEnteredTotal,400,240); //output
