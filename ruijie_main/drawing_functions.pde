@@ -85,6 +85,7 @@ void drawTextBar(){
 
 void drawKeys(){
     char[] tempKeys = pageKeys[currentPage];
+    char tempChar = char('a'+currentPage*((row-1)*(col-1)));
     for (i=1; i<row; i++){
       for (j=0; j<col; j++){
         fill(255);
@@ -96,8 +97,17 @@ void drawKeys(){
         if (currentPage==0 && j==col-1){
           fill(suggestedCharColor[0],suggestedCharColor[1],suggestedCharColor[2]);
         }
-        text(tempKeys[(i-1)*col+j], xul+j*sizeOfInputArea/col+sizeOfInputArea/col/2-inputOffsetX, 
-             yul+i*sizeOfInputArea/row+sizeOfInputArea/row/2+inputOffSetY);
+        char keyChar = ' ';
+        if (j == col-1){
+          keyChar = suggestedChars[i-1];
+        }else{
+          keyChar = tempChar;
+          tempChar++;
+        }
+        if (Character.isLetter(keyChar)){
+          text(keyChar, xul+j*sizeOfInputArea/col+sizeOfInputArea/col/2-inputOffsetX, 
+               yul+i*sizeOfInputArea/row+sizeOfInputArea/row/2+inputOffSetY);
+        }
         tempLetter ++;
       }
     }
