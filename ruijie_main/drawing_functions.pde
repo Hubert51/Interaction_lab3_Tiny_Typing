@@ -88,7 +88,7 @@ void drawKeys(){
     for (i=1; i<row; i++){
       for (j=0; j<col; j++){
         fill(50);
-        if (currentPage==0 && j==col-1){
+        if (j==col-1){
           fill(textBoxFontColor[0],textBoxFontColor[1],textBoxFontColor[2]);
         }
         rect(xul+j*sizeOfInputArea/col, 
