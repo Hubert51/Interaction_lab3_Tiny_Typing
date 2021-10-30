@@ -72,7 +72,7 @@ void drawTextBar(){
     text(tmp, xul+sizeOfInputArea/col/2, 
          yul+sizeOfInputArea/row/2);
     fill(255);
-    text("AUTOFILL", xul+sizeOfInputArea/col/2+textWidth(tmp), yul+sizeOfInputArea/row/2);
+    text(autofillString, xul+sizeOfInputArea/col/2+textWidth(tmp), yul+sizeOfInputArea/row/2);
     fill(0);
 }
 

@@ -39,6 +39,8 @@ void mouseReleased(){
         if (row_index>0){
           // System.out.println("Pressed: "+str(row_index)+" "+str(col_index));
           currentTyped += pageKeys[currentPage][Math.max(row_index-1,0)*col+col_index];
+        }else if (row_index == 0){
+          currentTyped += autofillString;  //if tap textbox, apply autofill result
         }
       }
     }
