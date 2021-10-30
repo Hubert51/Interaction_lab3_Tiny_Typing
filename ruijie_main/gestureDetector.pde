@@ -39,8 +39,6 @@ void mouseReleased(){
         if (row_index>0){
           // System.out.println("Pressed: "+str(row_index)+" "+str(col_index));
           currentTyped += pageKeys[currentPage][Math.max(row_index-1,0)*col+col_index];
-        }else if (row_index == 0){
-          currentTyped += autofillString;  //if tap textbox, apply autofill result
         }
       }
     }
@@ -89,7 +87,7 @@ void mousePressed()
   //}
 
   //You are allowed to have a next button outside the 1" area
-  if (didMouseClick(600, 600, 200, 200)) //check if click is in next button
+  if (didMouseClick(100, 300, 200, 200)) //check if click is in next button
   {
     nextTrial(); //if so, advance to next trial
   }

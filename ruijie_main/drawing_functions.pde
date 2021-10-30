@@ -6,6 +6,7 @@ void draw()
   if (finishTime!=0)
   {
     drawScoreStats();
+    return;
   }
   
   drawWatch(); //draw watch background
@@ -39,44 +40,12 @@ void draw()
     //draw very basic next button
     // to go to second phase
     fill(255, 0, 0);
-    rect(100, 300, 100, 100); //draw next button
+    rect(100, 300, 200, 100); //draw next button
     fill(255);
-    text("NEXT > ", 125, 325); //draw next label
-
-    //example design draw code
-    //fill(255, 0, 0); //red button
-    //rect(width/2-sizeOfInputArea/2, height/2-sizeOfInputArea/2+sizeOfInputArea/2, sizeOfInputArea/2, sizeOfInputArea/2); //draw left red button
-    //fill(0, 255, 0); //green button
-    //rect(width/2-sizeOfInputArea/2+sizeOfInputArea/2, height/2-sizeOfInputArea/2+sizeOfInputArea/2, sizeOfInputArea/2, sizeOfInputArea/2); //draw right green button
-    //textAlign(CENTER);
-    //fill(200);
-    //text("" + currentLetter, width/2, height/2-sizeOfInputArea/4); //draw current letter
+    text("NEXT > ", 125, 350); //draw next label
     
 
     //tempLetter = currentLetter;
-    drawKeys();
-
-    drawTextBar();
-    drawOnPress();  // draw visuals on pressing key
-                 
-  }
-  //drawFinger(); //no longer needed as we'll be deploying to an actual touschreen device
-}
-
-void drawTextBar(){
-    // draw text box on first row
-    // NOTE: Temporary solution for prototype 1; need to replace as freq word in future
-    int firstIndex = Math.max(currentTyped.lastIndexOf(" "),0);
-    String tmp = currentTyped.substring(firstIndex,currentTyped.length());
-    fill(56,176,0);
-    text(tmp, xul+sizeOfInputArea/col/2, 
-         yul+sizeOfInputArea/row/2);
-    fill(255);
-    text(autofillString, xul+sizeOfInputArea/col/2+textWidth(tmp), yul+sizeOfInputArea/row/2);
-    fill(0);
-}
-
-void drawKeys(){
     char[] tempKeys = pageKeys[currentPage];
     for (i=1; i<row; i++){
       for (j=0; j<col; j++){
@@ -89,14 +58,34 @@ void drawKeys(){
         if (currentPage==0 && j==col-1){
           fill(56,176,0);
         }
-        text(tempKeys[(i-1)*col+j], xul+j*sizeOfInputArea/col+sizeOfInputArea/col/2, 
-             yul+i*sizeOfInputArea/row+sizeOfInputArea/row/2);
+        text(tempKeys[(i-1)*col+j], xul+j*sizeOfInputArea/col+sizeOfInputArea/col/2-inputOffsetX, 
+             yul+i*sizeOfInputArea/row+sizeOfInputArea/row/2+inputOffSetY);
         tempLetter ++;
       }
     }
+    // draw text box on first row
+    // NOTE: Temporary solution for prototype 1; need to replace as freq word in future
+    fill(56,176,0);
+    if (currentTyped.length()>0 && currentTyped.charAt(currentTyped.length()-1)==' '){
+      indexOfLastSpace=currentTyped.length();
+    }
+    String tmp = "";
+    if (indexOfLastSpace+1<currentTyped.length()){
+      tmp = currentTyped.substring(indexOfLastSpace,currentTyped.length());
+    }
+    text(tmp, xul+sizeOfInputArea/col/2, 
+             yul+sizeOfInputArea/row/2);
+    fill(0);
+    
+    drawOnPress();  // draw visuals on pressing key
+                 
+  }
+  //drawFinger(); //no longer needed as we'll be deploying to an actual touschreen device
 }
 
 void drawScoreStats(){
+    textFont(createFont("Segoe UI", 24)); //set the font to arial 24. Creating fonts is expensive, so make difference sizes once in setup, not draw
+
     fill(0);
     textAlign(CENTER);
     text("Trials complete!",400,200); //output
@@ -135,6 +124,7 @@ void drawOnPress(){
 
 void nextTrial()
 {
+  System.out.println(currTrialNum);
   if (currTrialNum >= totalTrialNum) //check to see if experiment is done
     return; //if so, just return
 

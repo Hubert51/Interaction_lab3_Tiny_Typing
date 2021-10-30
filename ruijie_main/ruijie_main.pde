@@ -14,12 +14,14 @@ void setup()
   orientation(LANDSCAPE); //can also be PORTRAIT - sets orientation on android device
   
   ////// ** For LG K31 ***
-  //size(1520, 720); //Sets the size of the app. You should modify this to your device's native size. Many phones today are 1080 wide by 1920 tall.
+  size(1520, 720); //Sets the size of the app. You should modify this to your device's native size. Many phones today are 1080 wide by 1920 tall.
+  DPIofYourDeviceScreen = 295;
+
   
   // *** For Pixel 5 ***
-  DPIofYourDeviceScreen = 432;
+  // DPIofYourDeviceScreen = 432;
   sizeOfInputArea = DPIofYourDeviceScreen*1;
-  size(2340, 1080); //Sets the size of the app. You should modify this to your device's native size. Many phones today are 1080 wide by 1920 tall.
+  // size(2340, 1080); //Sets the size of the app. You should modify this to your device's native size. Many phones today are 1080 wide by 1920 tall.
 
   
   //textFont(createFont("Arial", 20)); //set the font to arial 24. Creating fonts is expensive, so make difference sizes once in setup, not draw

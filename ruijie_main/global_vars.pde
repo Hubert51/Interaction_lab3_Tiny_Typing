@@ -1,4 +1,3 @@
-/* Original vars from sample code */
 String[] phrases; //contains all of the phrases
 int totalTrialNum = 2; //the total number of phrases to be tested - set this low for testing. Might be ~10 for the real bakeoff!
 int currTrialNum = 0; // the current trial number (indexes into trials array above)
@@ -10,31 +9,27 @@ float lettersExpectedTotal = 0; //a running total of the number of letters expec
 float errorsTotal = 0; //a running total of the number of errors (when hitting next)
 String currentPhrase = ""; //the current target phrase
 String currentTyped = ""; //what the user has typed so far
-String lastWord = "";
+int indexOfLastSpace = 0;
 boolean isPixel = true;
 int DPIofYourDeviceScreen = 295; //you will need to look up the DPI or PPI of your device to make sure you get the right scale. Or play around with this value.
 float sizeOfInputArea = DPIofYourDeviceScreen*1; //aka, 1.0 inches square!
 PImage watch;
 PImage finger;
-
-/* UI location variables */
 float xul = 0;
 float yul = 0;
+int inputOffsetX = 5;
+int inputOffSetY = 5;
 int row = 0;  //num of rows
 int col = 0;  //num of cols
 int i, j;
-
-/* Gesture variables */
 char tempLetter;
 Boolean dragPressed = false;
 float dragY1, dragX1;
 Boolean pressedFlag = false;
 
-/* Typing variables */
 final int letterBoard = 10;
 char currentLetter = 'a';
-String autofillString = "AUTOFILL";
-/* Keyboard Layout */
+
 int currentPage = 0;  // current keyboard page
 char[] p1Keys;
 char[] p2Keys;
