@@ -88,10 +88,22 @@ void mousePressed()
   //    currentTyped+=currentLetter;
   //}
   
-  if (didMouseClick(600, 300, 200, 100))
+  if (finishTime!=0 && didMouseClick(600, 300, 200, 100)){
+    /* Original vars from sample code */
+    currTrialNum = 0; // the current trial number (indexes into trials array above)
+    startTime = 0; // time starts when the first letter is entered
+    finishTime = 0; // records the time of when the final trial ends
+    lastTime = 0; //the timestamp of when the last trial was completed
+    lettersEnteredTotal = 0; //a running total of the number of letters the user has entered (need this for final WPM computation)
+    lettersExpectedTotal = 0; //a running total of the number of letters expected (correct phrases)
+    errorsTotal = 0; //a running total of the number of errors (when hitting next)
+    currentPhrase = ""; //the current target phrase
+    currentTyped = ""; //what the user has typed so far
+    lastWord = "";
+  }
 
   //You are allowed to have a next button outside the 1" area
-  if (didMouseClick(600, 600, 200, 200)) //check if click is in next button
+  if (didMouseClick(100, 300, 200, 200)) //check if click is in next button
   {
     nextTrial(); //if so, advance to next trial
   }
