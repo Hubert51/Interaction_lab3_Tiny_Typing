@@ -25,7 +25,16 @@ void mouseReleased(){
         int row_index = int((mouseY-yul) / int(sizeOfInputArea/row));
         if (row_index>0){
           // System.out.println("Pressed: "+str(row_index)+" "+str(col_index));
-          currentTyped += pageKeys[currentPage][Math.max(row_index-1,0)*col+col_index];
+          if (col_index == col-1){
+            currentTyped += suggestedChars[row_index-1];
+          }else{
+            char tempChar = char('a'+currentPage*((row-1)*(col-1))+(row_index-1)*(col-1)+col_index);
+            if (Character.isLetter(tempChar)){
+              currentTyped += tempChar;
+            }else{
+              currentTyped = currentTyped.substring(0, Math.max(currentTyped.lastIndexOf(' '),0));
+            }
+          }
         }else if (row_index == 0){
           currentTyped += autofillString;  //if tap textbox, apply autofill result
         }

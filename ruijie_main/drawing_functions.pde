@@ -89,8 +89,8 @@ void drawKeys(){
     for (i=1; i<row; i++){
       for (j=0; j<col; j++){
         fill(50);
-        if (currentPage==0 && j==col-1){
-          fill(textBoxFontColor[0],textBoxFontColor[1],textBoxFontColor[2]);
+        if ( j==col-1){
+          fill(suggestedCharBgColor[0],suggestedCharBgColor[1],suggestedCharBgColor[2]);
         }
         rect(xul+j*sizeOfInputArea/col, 
              yul+i*sizeOfInputArea/row, 
@@ -108,9 +108,13 @@ void drawKeys(){
           keyChar = tempChar;
           tempChar++;
         }
+        fill(255);
         if (Character.isLetter(keyChar)){
-          fill(255);
           text(keyChar, xul+j*sizeOfInputArea/col+sizeOfInputArea/col/2-inputOffsetX, 
+               yul+i*sizeOfInputArea/row+sizeOfInputArea/row/2+inputOffSetY);
+        }else{
+          fill(acKeyColor[0],acKeyColor[1],acKeyColor[2]);
+          text("AC", xul+j*sizeOfInputArea/col+sizeOfInputArea/col/2-inputOffsetX-textWidth("A")/2, 
                yul+i*sizeOfInputArea/row+sizeOfInputArea/row/2+inputOffSetY);
         }
         tempLetter ++;
