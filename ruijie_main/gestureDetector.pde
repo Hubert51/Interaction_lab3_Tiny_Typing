@@ -16,9 +16,16 @@ void mouseReleased(){
     }else if(mouseX-dragX1>100){  // add space
       dragPressed = false;
       currentTyped += " ";
+      lastWord = "";
     }else if (mouseX-dragX1<-100){  // remove last input character
       dragPressed = false;
       currentTyped = currentTyped.substring(0, Math.max(0,currentTyped.length()-1));
+      int tmp = 0;
+      if (currentTyped.lastIndexOf(" ")>0){
+        tmp = currentTyped.lastIndexOf(" ")+1;
+      }
+      lastWord = currentTyped.substring(tmp, currentTyped.length());
+      //lastWord = lastWord.substring(0, Math.max(0,lastWord.length()-1));
     }else{
       if (mouseX>xul && mouseX<xul+sizeOfInputArea && mouseY>yul && mouseY<yul+sizeOfInputArea){
         int col_index = int((mouseX-xul) / int(sizeOfInputArea/col));
@@ -27,21 +34,34 @@ void mouseReleased(){
           // System.out.println("Pressed: "+str(row_index)+" "+str(col_index));
           if (col_index == col-1){
             currentTyped += suggestedChars[row_index-1];
+            if (suggestedChars[row_index-1]==' '){
+              lastWord = "";
+            }else{
+              lastWord += suggestedChars[row_index-1];
+            }
           }else{
             char tempChar = char('a'+currentPage*((row-1)*(col-1))+(row_index-1)*(col-1)+col_index);
             if (Character.isLetter(tempChar)){
               currentTyped += tempChar;
+              lastWord += tempChar;
             }else{
               currentTyped = currentTyped.substring(0, Math.max(currentTyped.lastIndexOf(' '),0));
+              int tmp = 0;
+              if (currentTyped.lastIndexOf(" ")>0){
+                tmp = currentTyped.lastIndexOf(" ")+1;
+              }
+              lastWord = currentTyped.substring(tmp, currentTyped.length());
             }
           }
         }else if (row_index == 0){
-          currentTyped += autofillString;  //if tap textbox, apply autofill result
+          currentTyped += (autofillString+" ");  //if tap textbox, apply autofill result
+          lastWord = "";
         }
       }
     }
   }
   pressedFlag = false;
+  System.out.println(lastWord);
 }
 
 //my terrible implementation you can entirely replace
