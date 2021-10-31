@@ -1,3 +1,5 @@
+import java.util.*;
+
 void draw()
 {
   background(255); //clear background
@@ -82,6 +84,7 @@ void drawTextBar(){
 
 void drawKeys(){
     char[] tempKeys = pageKeys[currentPage];
+    suggestedChars = nextLetter(lastWord);
     char tempChar = char('a'+currentPage*((row-1)*(col-1)));
     for (i=1; i<row; i++){
       for (j=0; j<col; j++){
@@ -250,3 +253,94 @@ void drawFinger()
   popMatrix();
   }
   
+  
+
+char[] nextLetter(String typed)
+{
+  String[] dictionary = loadStrings("short_dict.txt");
+  //text("There are " + dictionary.length + " lines", 125, 340);
+  String[] predList = {};
+  int typedLen = typed.length();
+  
+  for (int i = 0; i < dictionary.length; i++)
+  {
+    String word = dictionary[i];
+    
+    if ((word.length() > typedLen) && (typed.equals(word.substring(0, typedLen)) == true))
+    {
+      predList = append(predList, word);
+    }
+  }
+
+  HashMap<String, LetterFreq> letterDict = new HashMap<String, LetterFreq>();
+
+  for (int i = 0; i < predList.length; i++)
+  {
+    if (letterDict.size() > 5)
+    {
+      break;
+    }
+    String letter = predList[i].substring(typedLen, typedLen+1);
+    if (letterDict.containsKey(letter))
+    {
+      LetterFreq tmpEntry = letterDict.get(letter);
+      int tmpFreq = tmpEntry.getFreq();
+      LetterFreq newEntry = new LetterFreq(letter, tmpFreq+1);
+      letterDict.put(newEntry.getLetter(), newEntry);
+      //letterDict.put(letter, tmpFreq+1);
+    } else
+    {
+      LetterFreq newEntry = new LetterFreq(letter, 1);
+      letterDict.put(newEntry.getLetter(), newEntry);
+    }
+  }
+  
+  List<LetterFreq> letterByFreq = new ArrayList<LetterFreq>(letterDict.values());
+  Collections.sort(letterByFreq, new sortByFreq());
+
+  char[] finalList = {};
+  int count = 0;
+
+  for (LetterFreq lf : letterByFreq)
+  { 
+    count += 1;
+    if (count > 3)
+    {
+      break;
+    } 
+    finalList = append(finalList, lf.getLetter().charAt(0));   
+    // System.out.println(lf.getLetter());
+    // System.out.println(lf.getFreq());
+  }
+  //System.out.println(finalList[0]);
+  return finalList;
+
+}
+
+
+class LetterFreq 
+{
+  String letter;
+  int freq;
+  LetterFreq(String l, int f)
+  {
+    letter = l;
+    freq = f;
+  }
+  String getLetter()
+  {
+    return letter;
+  }
+  int getFreq()
+  {
+    return freq;
+  }
+}
+
+class sortByFreq implements Comparator<LetterFreq>
+{
+  int compare(LetterFreq lf1, LetterFreq lf2)
+  {
+    return (lf1.getFreq() - lf2.getFreq());
+  }
+}
