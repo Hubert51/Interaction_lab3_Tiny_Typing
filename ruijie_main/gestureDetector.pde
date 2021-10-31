@@ -20,7 +20,12 @@ void mouseReleased(){
     }else if (mouseX-dragX1<-100){  // remove last input character
       dragPressed = false;
       currentTyped = currentTyped.substring(0, Math.max(0,currentTyped.length()-1));
-      lastWord = lastWord.substring(0, Math.max(0,lastWord.length()-1));
+      int tmp = 0;
+      if (currentTyped.lastIndexOf(" ")>0){
+        tmp = currentTyped.lastIndexOf(" ")+1;
+      }
+      lastWord = currentTyped.substring(tmp, currentTyped.length());
+      //lastWord = lastWord.substring(0, Math.max(0,lastWord.length()-1));
     }else{
       if (mouseX>xul && mouseX<xul+sizeOfInputArea && mouseY>yul && mouseY<yul+sizeOfInputArea){
         int col_index = int((mouseX-xul) / int(sizeOfInputArea/col));
@@ -41,11 +46,16 @@ void mouseReleased(){
               lastWord += tempChar;
             }else{
               currentTyped = currentTyped.substring(0, Math.max(currentTyped.lastIndexOf(' '),0));
-              lastWord = "";
+              int tmp = 0;
+              if (currentTyped.lastIndexOf(" ")>0){
+                tmp = currentTyped.lastIndexOf(" ")+1;
+              }
+              lastWord = currentTyped.substring(tmp, currentTyped.length());
             }
           }
         }else if (row_index == 0){
-          currentTyped += autofillString;  //if tap textbox, apply autofill result
+          currentTyped += (autofillString+" ");  //if tap textbox, apply autofill result
+          lastWord = "";
         }
       }
     }
