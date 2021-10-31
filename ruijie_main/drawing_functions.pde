@@ -86,7 +86,7 @@ void drawKeys(){
     char[] predChars = nextLetter(lastWord);
     for (int i = 0; i < suggestedChars.length; i++)
     {
-      suggestedChars[i] = '*';
+      suggestedChars[i] = ' ';
     }
     for (int i = 0; i < predChars.length; i++)
     {
