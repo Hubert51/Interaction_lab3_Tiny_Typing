@@ -61,7 +61,7 @@ void mouseReleased(){
     }
   }
   pressedFlag = false;
-  System.out.println(lastWord);
+  //System.out.println(lastWord);
 }
 
 //my terrible implementation you can entirely replace

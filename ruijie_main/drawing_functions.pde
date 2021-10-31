@@ -80,7 +80,7 @@ void drawTextBar(){
     fill(textBoxAutofillColor[0],textBoxAutofillColor[1],textBoxAutofillColor[2]);
     autofillString = nextAutofill(lastWord);
     text(autofillString, xul+textWidth(tmp), yul+sizeOfInputArea/row/2);
-    System.out.println(autofillString);
+    //System.out.println(autofillString);
     fill(0);
 }
 
