@@ -78,6 +78,7 @@ void drawTextBar(){
     text(tmp, xul, 
          yul+sizeOfInputArea/row/2);
     fill(textBoxAutofillColor[0],textBoxAutofillColor[1],textBoxAutofillColor[2]);
+    autofillString = nextAutofill(lastWord);
     text(autofillString, xul+textWidth(tmp), yul+sizeOfInputArea/row/2);
     fill(0);
 }
@@ -262,7 +263,31 @@ void drawFinger()
   popMatrix();
   }
   
+
+String nextAutofill(String typed)
+{
+  String[] dictionary = loadStrings("short_dict.txt");
+  String predString = "";
+  int typedLen = typed.length();
   
+  for (int i = 0; i < dictionary.length; i++)
+  {
+    String word = dictionary[i];
+    
+    if ((word.length() > typedLen) && (typed.equals(word.substring(0, typedLen)) == true))
+    {
+      predString = word;
+      break;
+    }
+  }
+  if (predString.equals("") == true)
+  {
+    return "";
+  }else
+  {
+    return predString.substring(typedLen, predString.length());
+  }
+}
 
 char[] nextLetter(String typed)
 {
