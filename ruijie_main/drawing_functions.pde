@@ -83,8 +83,17 @@ void drawTextBar(){
 }
 
 void drawKeys(){
+    char[] predChars = nextLetter(lastWord);
+    for (int i = 0; i < suggestedChars.length; i++)
+    {
+      suggestedChars[i] = '*';
+    }
+    for (int i = 0; i < predChars.length; i++)
+    {
+      suggestedChars[i] = predChars[i];
+    }
+    
     char[] tempKeys = pageKeys[currentPage];
-    suggestedChars = nextLetter(lastWord);
     char tempChar = char('a'+currentPage*((row-1)*(col-1)));
     for (i=1; i<row; i++){
       for (j=0; j<col; j++){
