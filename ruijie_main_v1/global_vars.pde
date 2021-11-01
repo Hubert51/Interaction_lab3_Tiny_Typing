@@ -50,6 +50,7 @@ char[][] pageKeys;
 
 int col_index;
 int row_index;
+int pageNum = 2;
 
 // fond
 PFont keyBoardFont = createFont("Segoe UI", 40); //set the font to arial 24. Creating fonts is expensive, so make difference sizes once in setup, not draw

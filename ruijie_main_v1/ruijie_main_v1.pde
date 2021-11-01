@@ -28,16 +28,16 @@ void setup()
   noStroke(); //my code doesn't use any strokes
   xul = (width/2-sizeOfInputArea/2);
   yul = (height/2-sizeOfInputArea/2);
-  row = 4;
+  row = 5;
   col = 4;
   //p1Keys = "ab*cd*ef*".toCharArray();
   //p2Keys = "ghijklmno".toCharArray();
   //p3Keys = "pqrstuvwx".toCharArray();
   //p4Keys = "yz       ".toCharArray();
   //pageKeys = new char[][] {p1Keys, p2Keys, p3Keys, p4Keys};
-  p1Keys = "abc*def*ghi*".toCharArray();
-  p2Keys = "jklmnopqrstu".toCharArray();
-  p3Keys = "vwxyz       ".toCharArray();
+  p1Keys = "abcdefghijkl".toCharArray();
+  p2Keys = "mnopqrstuvwx".toCharArray();
+  p3Keys = "yz          ".toCharArray();
   pageKeys = new char[][] {p1Keys, p2Keys, p3Keys};
 }
 

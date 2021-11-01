@@ -8,36 +8,42 @@ void mouseReleased(){
     if (mouseY-dragY1>100){  // show next keyboard page
       currentLetter ++;  //?? TODO: @Ruijie verify this if needed
       dragPressed = false;
-      currentPage = (currentPage-1+pageKeys.length) % pageKeys.length;
+      currentPage = (currentPage-1+pageNum) % pageNum;
     }else if (mouseY-dragY1<-100){  // show prev keyboard page
       currentLetter ++;
       dragPressed = false;
-      currentPage = (currentPage+1) % pageKeys.length;
+      currentPage = (currentPage+1) % pageNum;
     }else if(mouseX-dragX1>100){  // add space
-      dragPressed = false;
-      currentTyped += " ";
+      //dragPressed = false;
+      //currentTyped += " ";
     }else if (mouseX-dragX1<-100){  // remove last input character
-      dragPressed = false;
-      currentTyped = currentTyped.substring(0, Math.max(0,currentTyped.length()-1));
+      //dragPressed = false;
+      //currentTyped = currentTyped.substring(0, Math.max(0,currentTyped.length()-1));
     }else{
       if (mouseX>xul && mouseX<xul+sizeOfInputArea && mouseY>yul && mouseY<yul+sizeOfInputArea){
         int col_index = int((mouseX-xul) / int(sizeOfInputArea/col));
         int row_index = int((mouseY-yul) / int(sizeOfInputArea/row));
         if (row_index>0){
           // System.out.println("Pressed: "+str(row_index)+" "+str(col_index));
-          if (col_index == col-1){
-            currentTyped += suggestedChars[row_index-1];
-          }else{
-            char tempChar = char('a'+currentPage*((row-1)*(col-1))+(row_index-1)*(col-1)+col_index);
-            if (Character.isLetter(tempChar)){
-              currentTyped += tempChar;
-            }else{
-              currentTyped = currentTyped.substring(0, Math.max(currentTyped.lastIndexOf(' '),0));
-            }
+          if (col_index == col-1 && row_index == 1){
+            dragPressed = false;
+            currentTyped = currentTyped.substring(0, Math.max(0,currentTyped.length()-1));          
+          } else if (col_index == col-1 && row_index == 2) {
+            dragPressed = false;
+            currentTyped += " ";
+          } else if (col_index == col-1 && row_index == 3) {
+            currentTyped = currentTyped.substring(0, Math.max(currentTyped.lastIndexOf(' '),0));
+          } 
+          else {
+            char tempChar = char('a' + currentPage*((row-1)*(col-1))+(row_index-1)*(col-1)+col_index + currentPage);
+            
+            currentTyped += tempChar;
           }
-        }else if (row_index == 0){
-          currentTyped += autofillString;  //if tap textbox, apply autofill result
         }
+        // do not need autofill text in version 1
+        //else if (row_index == 0){
+        //  currentTyped += autofillString;  //if tap textbox, apply autofill result
+        //}
       }
     }
   }
