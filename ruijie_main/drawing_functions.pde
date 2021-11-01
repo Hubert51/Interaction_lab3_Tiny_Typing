@@ -11,9 +11,9 @@ void draw()
     // textAlign(CENTER);
     textFont(createFont("Segoe UI", 40)); //set the font to arial 24. Creating fonts is expensive, so make difference sizes once in setup, not draw
     fill(255, 0, 0);
-    rect(600, 300, 200, 100); //draw next button
+    rect(300, 500, 200, 100); //draw next button
     fill(255);
-    text("Restart", 700, 365); //draw next label
+    text("Restart", 400, 565); //draw next label
     return;
   }
   
@@ -25,12 +25,18 @@ void draw()
 
   if (startTime==0 & !mousePressed)
   {
-    fill(128);
+    fill(0);
     textAlign(CENTER);
     text("Click to start time!", 280, 150); //display this messsage until the user clicks!
-  }
+    
+    textAlign(LEFT);
+    fill(255, 0, 0);
+    rect(100, 500, 200, 100); //draw CLICK button
+    fill(255);
+    text("CLICK > ", 125, 550); //draw CLICK label  
+}
 
-  if (startTime==0 & mousePressed)
+  if (startTime==0 & didMouseClick(100, 500, 200, 100))
   {
     nextTrial(); //start the trials!
   }
@@ -230,7 +236,7 @@ void nextTrial()
 
   lastTime = millis(); //record the time of when this trial ended
   currentTyped = ""; //clear what is currently typed preparing for next trial
-  currentPhrase = phrases[currTrialNum]; // load the next phrase!
+  currentPhrase = phrases[int(random(phrases.length))]; // load the next phrase!
   //currentPhrase = "abc"; // uncomment this to override the test phrase (useful for debugging)
 }
 

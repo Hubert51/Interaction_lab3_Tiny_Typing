@@ -79,7 +79,7 @@ void mousePressed()
   
   pressedFlag = true;
   
-  if (finishTime!=0 && didMouseClick(600, 300, 200, 100)){
+  if (finishTime!=0 && didMouseClick(300, 500, 200, 100)){
     /* Original vars from sample code */
     currTrialNum = 0; // the current trial number (indexes into trials array above)
     startTime = 0; // time starts when the first letter is entered
@@ -94,7 +94,7 @@ void mousePressed()
   }
 
   //You are allowed to have a next button outside the 1" area
-  if (didMouseClick(100, 300, 200, 200)) //check if click is in next button
+  if (startTime!=0 && didMouseClick(100, 300, 200, 200)) //check if click is in next button
   {
     nextTrial(); //if so, advance to next trial
   }

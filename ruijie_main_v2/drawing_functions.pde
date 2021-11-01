@@ -1,3 +1,5 @@
+import java.util.*;
+
 void draw()
 {
   background(255); //clear background
@@ -26,13 +28,12 @@ void draw()
     fill(0);
     textAlign(CENTER);
     text("Click to start time!", 280, 150); //display this messsage until the user clicks!
-    
     textAlign(LEFT);
     fill(255, 0, 0);
     rect(100, 500, 200, 100); //draw CLICK button
     fill(255);
-    text("CLICK > ", 125, 550); //draw CLICK label
-  }
+    text("CLICK > ", 125, 550); //draw CLICK label  
+}
 
   if (startTime==0 & didMouseClick(100, 500, 200, 100))
   {
@@ -81,25 +82,32 @@ void drawTextBar(){
     textFont(createFont("Segoe UI", currentFont)); //set the font to arial 24. Creating fonts is expensive, so make difference sizes once in setup, not draw
     text(tmp, xul, 
          yul+sizeOfInputArea/row/2);
-    // remove autofill text in the inputbar
-    // fill(textBoxAutofillColor[0],textBoxAutofillColor[1],textBoxAutofillColor[2]);
-    // text(autofillString, xul+textWidth(tmp), yul+sizeOfInputArea/row/2);
+    //fill(textBoxAutofillColor[0],textBoxAutofillColor[1],textBoxAutofillColor[2]);
+    //autofillString = nextAutofill(lastWord);
+    //text(autofillString, xul+textWidth(tmp), yul+sizeOfInputArea/row/2);
+    //System.out.println(autofillString);
     fill(0);
-    textFont(keyBoardFont);
 }
 
 void drawKeys(){
-    //char[] tempKeys = pageKeys[currentPage];
-    // we have a char at the last row and last col of each page
-    char tempChar = char('a' + currentPage*((row-1)*(col-1)));
-    if (currentPage > 0) {tempChar += 1;}
+    char[] predChars = nextLetter(lastWord);
+    for (int i = 0; i < suggestedChars.length; i++)
+    {
+      suggestedChars[i] = ' ';
+    }
+    for (int i = 0; i < predChars.length; i++)
+    {
+      suggestedChars[i] = predChars[i];
+    }
+    
+    char[] tempKeys = pageKeys[currentPage];
+    char tempChar = char('a'+currentPage*((row-1)*(col-1)));
     for (i=1; i<row; i++){
       for (j=0; j<col; j++){
         fill(50);
-        // fill three functional key
-        //if ( 1<=i && i<=4 && j==col-1){
-        //  fill(suggestedCharBgColor[0],suggestedCharBgColor[1],suggestedCharBgColor[2]);
-        //}
+        if ( j==col-1){
+          fill(suggestedCharBgColor[0],suggestedCharBgColor[1],suggestedCharBgColor[2]);
+        }
         rect(xul+j*sizeOfInputArea/col, 
              yul+i*sizeOfInputArea/row, 
              sizeOfInputArea/col, 
@@ -110,38 +118,24 @@ void drawKeys(){
           fill(suggestedCharColor[0],suggestedCharColor[1],suggestedCharColor[2]);
         }
         char keyChar = ' ';
-        if (j==col-1 && i==1){
-          fill(acKeyColor[0],acKeyColor[1],acKeyColor[2]);
-          text("DEL", xul+j*sizeOfInputArea/col+sizeOfInputArea/col/2-inputOffsetX-textWidth("DE")/2, 
-               yul+i*sizeOfInputArea/row+sizeOfInputArea/row/2+inputOffSetY);
-        } else if (j==col-1 && i==2){
-          fill(acKeyColor[0],acKeyColor[1],acKeyColor[2]);
-          text("_", xul+j*sizeOfInputArea/col+sizeOfInputArea/col/2-inputOffsetX-textWidth("_")/2, 
-               yul+i*sizeOfInputArea/row+sizeOfInputArea/row/2+inputOffSetY);
-        } else if (j==col-1 && i==3){
-          fill(acKeyColor[0],acKeyColor[1],acKeyColor[2]);
-          text("AC", xul+j*sizeOfInputArea/col+sizeOfInputArea/col/2-inputOffsetX-textWidth("A")/2, 
-               yul+i*sizeOfInputArea/row+sizeOfInputArea/row/2+inputOffSetY);
-        } else{
-          fill(255);
+        if (j == col-1){
+          keyChar = suggestedChars[i-1];
+        }else{
           keyChar = tempChar;
           tempChar++;
+        }
+        fill(255);
+        if (Character.isLetter(keyChar)){
+          fill(255);
           textFont(keyBoardFont);
           text(keyChar, xul+j*sizeOfInputArea/col+sizeOfInputArea/col/2-inputOffsetX, 
                yul+i*sizeOfInputArea/row+sizeOfInputArea/row/2+inputOffSetY);
+        }else{
+          fill(acKeyColor[0],acKeyColor[1],acKeyColor[2]);
+          text("AC", xul+j*sizeOfInputArea/col+sizeOfInputArea/col/2-inputOffsetX-textWidth("A")/2, 
+               yul+i*sizeOfInputArea/row+sizeOfInputArea/row/2+inputOffSetY);
         }
-        //fill(255);
-        //if (Character.isLetter(keyChar)){
-        //  fill(255);
-        //  textFont(keyBoardFont);
-        //  text(keyChar, xul+j*sizeOfInputArea/col+sizeOfInputArea/col/2-inputOffsetX, 
-        //       yul+i*sizeOfInputArea/row+sizeOfInputArea/row/2+inputOffSetY);
-        //}else{
-        //  fill(acKeyColor[0],acKeyColor[1],acKeyColor[2]);
-        //  text("AC", xul+j*sizeOfInputArea/col+sizeOfInputArea/col/2-inputOffsetX-textWidth("A")/2, 
-        //       yul+i*sizeOfInputArea/row+sizeOfInputArea/row/2+inputOffSetY);
-        //}
-        // tempLetter ++;
+        tempLetter ++;
       }
     }
 }
@@ -275,3 +269,118 @@ void drawFinger()
   popMatrix();
   }
   
+
+//String nextAutofill(String typed)
+//{
+//  String[] dictionary = loadStrings("short_dict.txt");
+//  String predString = "";
+//  int typedLen = typed.length();
+  
+//  for (int i = 0; i < dictionary.length; i++)
+//  {
+//    String word = dictionary[i];
+    
+//    if ((word.length() > typedLen) && (typed.equals(word.substring(0, typedLen)) == true))
+//    {
+//      predString = word;
+//      break;
+//    }
+//  }
+//  if (predString.equals("") == true)
+//  {
+//    return "";
+//  }else
+//  {
+//    return predString.substring(typedLen, predString.length());
+//  }
+//}
+
+char[] nextLetter(String typed)
+{
+  String[] dictionary = loadStrings("short_dict.txt");
+  //text("There are " + dictionary.length + " lines", 125, 340);
+  String[] predList = {};
+  int typedLen = typed.length();
+  
+  for (int i = 0; i < dictionary.length; i++)
+  {
+    String word = dictionary[i];
+    
+    if ((word.length() > typedLen) && (typed.equals(word.substring(0, typedLen)) == true))
+    {
+      predList = append(predList, word);
+    }
+  }
+
+  HashMap<String, LetterFreq> letterDict = new HashMap<String, LetterFreq>();
+
+  for (int i = 0; i < predList.length; i++)
+  {
+    if (letterDict.size() > 5)
+    {
+      break;
+    }
+    String letter = predList[i].substring(typedLen, typedLen+1);
+    if (letterDict.containsKey(letter))
+    {
+      LetterFreq tmpEntry = letterDict.get(letter);
+      int tmpFreq = tmpEntry.getFreq();
+      LetterFreq newEntry = new LetterFreq(letter, tmpFreq+1);
+      letterDict.put(newEntry.getLetter(), newEntry);
+      //letterDict.put(letter, tmpFreq+1);
+    } else
+    {
+      LetterFreq newEntry = new LetterFreq(letter, 1);
+      letterDict.put(newEntry.getLetter(), newEntry);
+    }
+  }
+  
+  List<LetterFreq> letterByFreq = new ArrayList<LetterFreq>(letterDict.values());
+  Collections.sort(letterByFreq, new sortByFreq());
+
+  char[] finalList = {};
+  int count = 0;
+
+  for (LetterFreq lf : letterByFreq)
+  { 
+    count += 1;
+    if (count > 3)
+    {
+      break;
+    } 
+    finalList = append(finalList, lf.getLetter().charAt(0));   
+    // System.out.println(lf.getLetter());
+    // System.out.println(lf.getFreq());
+  }
+  //System.out.println(finalList[0]);
+  return finalList;
+
+}
+
+
+class LetterFreq 
+{
+  String letter;
+  int freq;
+  LetterFreq(String l, int f)
+  {
+    letter = l;
+    freq = f;
+  }
+  String getLetter()
+  {
+    return letter;
+  }
+  int getFreq()
+  {
+    return freq;
+  }
+}
+
+class sortByFreq implements Comparator<LetterFreq>
+{
+  int compare(LetterFreq lf1, LetterFreq lf2)
+  {
+    return (lf1.getFreq() - lf2.getFreq());
+  }
+}
