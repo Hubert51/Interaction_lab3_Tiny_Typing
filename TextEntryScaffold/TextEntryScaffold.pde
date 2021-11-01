@@ -13,7 +13,7 @@ float lettersExpectedTotal = 0; //a running total of the number of letters expec
 float errorsTotal = 0; //a running total of the number of errors (when hitting next)
 String currentPhrase = ""; //the current target phrase
 String currentTyped = ""; //what the user has typed so far
-final int DPIofYourDeviceScreen = 432; //you will need to look up the DPI or PPI of your device to make sure you get the right scale. Or play around with this value.
+final int DPIofYourDeviceScreen = 295; //you will need to look up the DPI or PPI of your device to make sure you get the right scale. Or play around with this value.
 final float sizeOfInputArea = DPIofYourDeviceScreen*1; //aka, 1.0 inches square!
 PImage watch;
 PImage finger;
@@ -34,8 +34,14 @@ void setup()
   //Collections.shuffle(Arrays.asList(phrases), new Random(100)); //randomize the order of the phrases with seed 100; same order every time, useful for testing
  
   orientation(LANDSCAPE); //can also be PORTRAIT - sets orientation on android device
+
   size(2340, 1080); //Sets the size of the app. You should modify this to your device's native size. Many phones today are 1080 wide by 1920 tall.
   textFont(createFont("Arial", 40)); //set the font to arial 24. Creating fonts is expensive, so make difference sizes once in setup, not draw
+
+  // size(2340, 1080); //Sets the size of the app. You should modify this to your device's native size. Many phones today are 1080 wide by 1920 tall.
+  // size(1520, 720);
+  // textFont(createFont("Arial", 30)); //set the font to arial 24. Creating fonts is expensive, so make difference sizes once in setup, not draw
+
   noStroke(); //my code doesn't use any strokes
   xul = (width/2-sizeOfInputArea/2);
   yul = (height/2-sizeOfInputArea/2);
@@ -91,9 +97,9 @@ void draw()
   {
     //feel free to change the size and position of the target/entered phrases and next button 
     textAlign(LEFT); //align the text left
-    fill(128);
+    fill(0);
     text("Phrase " + (currTrialNum+1) + " of " + totalTrialNum, 70, 50); //draw the trial count
-    fill(128);
+    fill(0);
     text("Target:   " + currentPhrase, 70, 100); //draw the target string
     text("Entered:  " + currentTyped +"|", 70, 140); //draw what the user has entered thus far 
 
